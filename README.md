@@ -50,7 +50,6 @@ poetry init
     poetry shell
 ```
 ---------------------------------------
-- 
 #### 7. To Run Migrations:
 ```shell
   python manage.py makemigrations
@@ -63,13 +62,13 @@ poetry init
   python manage.py runserver
 ```
 ---------------------------------------
-#### -  Add Additional Dependencies:
+#### Add Additional Dependencies:
 
 ```shell
   poetry add <package>
 ```
 ---------------------------------------
-#### -  To created super user:
+#### To created super user:
 - 
 ```shell
   python manage.py createsuperuser
