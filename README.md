@@ -69,7 +69,6 @@ poetry init
 ```
 ---------------------------------------
 #### To created super user:
-- 
 ```shell
   python manage.py createsuperuser
 ``` 
