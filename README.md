@@ -1,60 +1,77 @@
+# Django Project Setup
 
-# django-project-setup
+This file provides guidance on setting up a Django project using Poetry.
 
-This is the file for guidance on creating a Django setup.
+## Steps to Work with the Repository
 
-# Steps to work with the repo
-
-- Create Django Application
+#### 1. Create a Django Application
+Initialize your Django project by running:
 ```shell
-  django-admin startproject <Project name>
-
+django-admin startproject <project_name>
 ```
-- Setup poetry
+---------------------------------------
+#### 2. Add Essential Files
+- Add a gitignore file
+- add README file
 
-Install poetry package manager (https://python-poetry.org/docs/#installation)
+---------------------------------------
+#### 3. Setup poetry
+
+  Install poetry package manager (https://python-poetry.org/docs/#installation)
 ```shell
 poetry init
-
 ```
-Ensure that the database is created and the user has the required permissions.
+---------------------------------------
 
-- To install dependencies:
+#### 4. Add dependencies
+
+  You can add dependencies based on your project needs.
 ```shell
-    poetry install
+# Sample 
+  poetry add Django djangorestframework django-filter
 ```
+---------------------------------------
+#### 5. Create your .env file
 
-- To activate virtual environment:
+  Based on the project, you can set up the `.env` file and make the necessary changes in the `project_name/settings.py` file also.
+```shell
+# Sample env file
+  DB_NAME=db_name
+  DB_USER=db_username
+  DB_PASSWORD=password
+  DB_HOST=localhost
+  DB_PORT=5432
+  SECRET_KEY=yoursecretkey
+
+```
+---------------------------------------
+#### 6. To activate virtual environment:
 ```shell
     poetry shell
 ```
-
-- To Run Migrations:
-
+---------------------------------------
+- 
+#### 7. To Run Migrations:
 ```shell
   python manage.py makemigrations
   python manage.py migrate
 
 ```
-
-- To run the server
+---------------------------------------
+#### 8. To run the server
 ```shell
   python manage.py runserver
 ```
+---------------------------------------
+#### -  Add Additional Dependencies:
 
-- If you want to add any dependencies run:
 ```shell
   poetry add <package>
 ```
-
-- To created super user:
+---------------------------------------
+#### -  To created super user:
+- 
 ```shell
   python manage.py createsuperuser
 ``` 
 
-
- - Before starting the project, run these commands to import necessary data:
-```shell
-  python manage.py import_qualifications
-  python manage.py import_state_and_countries
-```
