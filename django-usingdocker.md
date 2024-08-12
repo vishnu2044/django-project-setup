@@ -55,8 +55,12 @@ In the project root, create a docker-compose.yml file with the following content
 ```shell
 version: '3.8'
 
+name: docker-setup-name
+
 services:
   web:
+    image: docker-setup-image
+    container_name: docker-setup-container-name
     build: .
     command: poetry run python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -71,9 +75,9 @@ services:
   db:
     image: postgres:13
     environment:
-      PSQL_DB: <db_name>
-      PSQL_USER: <db_user>
-      PSQL_PASSWORD: <db_password>
+      POSTGRES_DB: <db_name>
+      POSTGRES_USER: <db_user>
+      POSTGRES_PASSWORD: <db_password>
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
