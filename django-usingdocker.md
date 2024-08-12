@@ -87,19 +87,20 @@ Open myproject/settings.py and update the DATABASES setting to use the PostgreSQ
 import os
 from urllib.parse import urlparse
 
-# Parse database URL
+# Parse the DATABASE_URL environment variable
 result = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': result.path[1:],
-        'USER': result.username,
-        'PASSWORD': result.password,
-        'HOST': result.hostname,
-        'PORT': result.port,
+        'NAME': result.path[1:],  # Extracts the DB name
+        'USER': result.username,   # Extracts the DB username
+        'PASSWORD': result.password, # Extracts the DB password
+        'HOST': result.hostname,   # Extracts the DB host
+        'PORT': result.port,       # Extracts the DB port
     }
 }
+
 
 ```
 ---------------------------------------
