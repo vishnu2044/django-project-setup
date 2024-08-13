@@ -70,7 +70,7 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/<db_name>
+      - DATABASE_URL=postgres://<db_user>:<db_password>@db:5432/<db_name>
 
   db:
     image: postgres:13
