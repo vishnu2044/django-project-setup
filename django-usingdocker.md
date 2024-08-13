@@ -53,55 +53,54 @@ CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
 #### 5. Create a `docker-compose.yml` file:
 In the project root, create a docker-compose.yml file with the following content:
 ```shell
-version: '3.8'
+version: '3.8'  # Specifies the version of the Docker Compose file format being used.
 
-name: docker-setup-name
+name: abc-setup  # Optional name for the Docker Compose application.
 
-services:
-  web:
-    image: docker-setup-image
-    container_name: docker-setup-container-name
-    build: .
-    command: poetry run python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=postgres://<db_user>:<db_password>@db:5432/<db_name>
+services:  # Defines the services that will be run in separate containers.
 
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: <db_name>
-      POSTGRES_USER: <db_user>
+  db:  # The database service configuration.
+    image: postgres:13  # Specifies the Docker image for PostgreSQL version 13.
+    environment:  # Defines environment variables for the PostgreSQL container.
+      POSTGRES_DB: <db_name>  
+      POSTGRES_USER: <db_user>   
       POSTGRES_PASSWORD: <db_password>
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    volumes:  # Mounts a volume to persist the database data.
+      - postgres_data:/var/lib/postgresql/data/  # Maps the `postgres_data` volume to the PostgreSQL data directory.
 
-volumes:
-  postgres_data:
+  web:  # The web application service configuration.
+    image: abc-image  
+    container_name: abc-container  
+    build: .  # Specifies that the Docker image should be built using the Dockerfile in the current directory.
+    command: poetry run python manage.py runserver 0.0.0.0:8000 
+    volumes:  # Mounts the current directory to the `/app` directory inside the container.
+      - .:/app  # Ensures code changes are reflected inside the container without rebuilding.
+    ports: 
+      - "8000:8000"  # Allows access to the web application via http://localhost:8000.
+    depends_on:  
+      - db 
+    environment:  # Defines environment variables for the web application container.
+      - POSTGRES_NAME=<db_name>  
+      - POSTGRES_USER=<db_user>  
+      - POSTGRES_PASSWORD=<db_password>
+
+volumes:  # Defines Docker volumes for persistent data storage.
+  postgres_data:  # A named volume to persist PostgreSQL data across container restarts.
 ```
 ---------------------------------------
 #### 6. Configure Django `settings.py` file for postgresql:
 Open myproject/settings.py and update the DATABASES setting to use the PostgreSQL database:
 ```shell
 import os
-from urllib.parse import urlparse
-
-# Parse the DATABASE_URL environment variable
-result = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': result.path[1:],  # Extracts the DB name
-        'USER': result.username,   # Extracts the DB username
-        'PASSWORD': result.password, # Extracts the DB password
-        'HOST': result.hostname,   # Extracts the DB host
-        'PORT': result.port,       # Extracts the DB port
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',   # Extracts the DB host
+        'PORT': 5432,       # Extracts the DB port
     }
 }
 
