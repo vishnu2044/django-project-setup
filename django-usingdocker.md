@@ -119,14 +119,10 @@ docker-compose up --build
 Build and start the containers
 ```shell
 docker-compose run web poetry run python manage.py makemigrations
-docker-compose run web poetry run python manage.py migrate
 
 ```
----------------------------------------
-#### 9. Create superuser:
-Build and start the containers
 ```shell
-docker-compose run web poetry run python manage.py createsuperuser
+docker-compose run web poetry run python manage.py migrate
 
 ```
 ---------------------------------------
